@@ -1,0 +1,5 @@
+rootProject.name = 'study-clean-preparation'
+include 'domain'
+include 'application'
+include 'infrastructure'
+
