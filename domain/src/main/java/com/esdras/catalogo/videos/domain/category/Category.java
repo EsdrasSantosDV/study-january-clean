@@ -31,7 +31,7 @@ public class Category extends AggregateRoot<CategoryID> {
         this.deletedAt = deletedAt;
     }
 
-    
+
 
     public CategoryID getId() {
         return id;

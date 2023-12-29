@@ -1,0 +1,24 @@
+package com.esdras.catalogo.videos.domain.exceptions;
+
+/*
+NO JAVA A GENTE TEM EXCPETIONS CHECKED ONDE PRECISAMOS REALMENTE TRATAR COM THROW, OU UM TRY
+QUE NA MINHA VISÃO E CHATO QUE SO O CARAMBA, E TEMOS AS UNCHECKED QUE NAO PRECISAMOS TRATAR DIRETAMENTE
+COMO O THROW OU O TRY
+PELO FATO QUE O JAVA HJ TEM MUITA PROGRAMAÇÃO FUNCIONAL, CONSEGUIMO SUSAR AS RUNTIMES EXCEPTIONS
+PARA TRATAR ERROS DE FORMA MAIS SIMPLES
+MAS EXISTE CASOS QUE E MELHOR AS CHECKEDS
+ */
+public class NoStacktraceException extends RuntimeException{
+
+    public NoStacktraceException(final String message) {
+        this(message, null);
+    }
+
+    //SO QUE TEMOS UM PILHA DE ERROS, E PRA OTMIZAR COLOCAMOS TRUE E FALSE PRA NAO TER QUE
+    //PERCORRER TODA A PILHA DE ERROS NO CASO DE UM AMBIENTE DE PRODUÇÃO E TAL
+    // ISSO TUDO E PRA OTIMIZAR,
+    //PERCORRER TODA A PILHA DE ERROS
+    public NoStacktraceException(final String message, final Throwable cause) {
+        super(message, cause, true, false);
+    }
+}
