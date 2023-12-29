@@ -1,6 +1,7 @@
 package com.esdras.catalogo.videos.domain.category;
 
 import com.esdras.catalogo.videos.domain.AggregateRoot;
+import com.esdras.catalogo.videos.domain.validation.ValidationHandler;
 
 import java.time.Instant;
 
@@ -32,7 +33,10 @@ public class Category extends AggregateRoot<CategoryID> {
     }
 
 
-
+    @Override
+    public void validate(final ValidationHandler handler) {
+        new CategoryValidator(this, handler).validate();
+    }
     public CategoryID getId() {
         return id;
     }

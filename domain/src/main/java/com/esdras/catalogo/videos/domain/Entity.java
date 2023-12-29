@@ -1,5 +1,7 @@
 package com.esdras.catalogo.videos.domain;
 
+import com.esdras.catalogo.videos.domain.validation.ValidationHandler;
+
 import java.util.Objects;
 
 /*
@@ -20,6 +22,7 @@ public abstract class Entity<ID extends Identifier>{
         this.id = id;
     }
 
+    public abstract void validate(ValidationHandler handler);
 
     public ID getId() {
         return id;
