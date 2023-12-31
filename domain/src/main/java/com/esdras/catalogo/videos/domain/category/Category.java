@@ -8,7 +8,8 @@ import java.time.Instant;
 //ESSA CLASSE E UMA ENTIDADE QUE REPRESA UM AGREGADO RAIZ DE CATEGORIA DE VIDEO
 //UM AGREGADO RAIZ E UM PONTO DE PARTIDA PRA COMPOSICAO DE ENTIDADES E OBJETOS DE VALOR
 //NESSE CASO A ENTIDADE POSSUI UM CATEGORIA ID QUE E UM IDENTIFICADOR DE CATEGORIA
-public class Category extends AggregateRoot<CategoryID> {
+public class Category extends AggregateRoot<CategoryID> implements Cloneable {
+    //ESSE CLONABLE E PRA REALIZAR UMA COPIA DE UMA ENTIDADE QUE RETORNE UMA NOVA REFERENCIA
 
 
     private String name;
@@ -117,5 +118,15 @@ public class Category extends AggregateRoot<CategoryID> {
 
     public Instant getDeletedAt() {
         return deletedAt;
+    }
+
+    @Override
+    public Category clone() {
+        try {
+            Category clone = (Category) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
