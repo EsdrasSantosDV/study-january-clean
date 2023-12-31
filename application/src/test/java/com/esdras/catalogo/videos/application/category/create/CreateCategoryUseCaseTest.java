@@ -79,7 +79,7 @@ public class CreateCategoryUseCaseTest {
     public void  givenAValidCommand_whenCallsCreateCategory_shouldReturnCategoryId()
     {
         final var expectedName = "ESDRAS KHAN";
-        final var expectedDescription = 1L;
+        final var expectedDescription = "Dragon ball dasd";
         final var expectedIsActive= true;
 
         //AQUI VAMOS CRIAR O COMANDO VALIDO
@@ -92,10 +92,10 @@ public class CreateCategoryUseCaseTest {
                 returnsFirstArg()
         );
 
-        final var actualOutput= createCategoryUseCase.execute(aValidCommand);
+        final var actualOutput= createCategoryUseCase.execute(aValidCommand).get();
 
         Assertions.assertNotNull(actualOutput);
-        Assertions.assertNotNull(actualOutput.getId());
+        Assertions.assertNotNull(actualOutput.id());
 
         //O método verify é usado para checar se certas interações com o mock ocorreram.
         Mockito.verify(categoryGateway, times(1)).create(argThat(aCategory ->
