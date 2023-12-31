@@ -38,7 +38,7 @@ public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase {
         final var isActive = aCommand.isActive();
 
 
-        //
+
         final var notification = Notification.create();
 
         final var aCategory = Category.newCategory(aName, aDescription, isActive);

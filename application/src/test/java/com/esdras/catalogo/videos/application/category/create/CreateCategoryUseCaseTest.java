@@ -112,12 +112,96 @@ public class CreateCategoryUseCaseTest {
 
 
 
+    //2º CASO DE USO E O CASO QUE DE ENVIA UM COMANDO INVALIDO E ESPERA QUE DE UM ERRO
+
+    @Test
+    @DisplayName("Dado um Comando Inválido, Quando Chama CreateCategory, Deve Retornar uma Exception")
+    public void givenAInvalidName_whenCallsCreateCategory_thenShouldReturnDomainException() {
+        final String expectedName = null;
+        final var expectedDescription = "A categoria mais daora";
+        final var expectedIsActive = true;
+        final var expectedErrorMessage = "'name' should not be null";
+        final var expectedErrorCount = 1;
+        //AQUI VAMOS CRIAR O COMANDO INVALIDO
+        //E SEMPRE VER SE A QUANITDADE DE ERROS QUE A GENTE TA ESPERANDO DA
+        //E SE A MENSAGEM DO ERRO E A MENSAGEM QUE A GENTE ESPERA
 
 
+        final var aCommand =
+                CreateCategoryCommand.with(expectedName, expectedDescription, expectedIsActive);
 
+        final var notification = createCategoryUseCase.execute(aCommand).getLeft();
 
+        Assertions.assertEquals(expectedErrorCount, notification.getErrors().size());
+        Assertions.assertEquals(expectedErrorMessage, notification.firstError().message());
 
+        //SE O GATEWAY NÃO FOI CHAMADO QUER DIZER QUE DEU ERRO, E NEM PRO GATEWAY BATEU PRA CRIAR
+        Mockito.verify(categoryGateway, times(0)).create(any());
+    }
 
+    //3º CASO DE USO SEMPRE COMEÇAMOS COM OS TESTES DE NEGOCIO
+    //MAS O PRIMEIRO E SEGUNDO E PADRÃO PRA DAR UMA MELHOR COBERTURA
+    //
+    @Test
+    @DisplayName("Dado um Comando Inválido com uma categoria intaiva, Quando Chama CreateCategory, Deve Retornar uma categoria inativa")
+    public void givenAValidCommandWithInactiveCategory_whenCallsCreateCategory_shouldReturnInactiveCategoryId() {
+        final var expectedName = "Filmes";
+        final var expectedDescription = "A categoria mais daora";
+        final var expectedIsActive = false;
+        //VIMOS SE A CATEGORIA FOI CRIADA COMO INVATIVA E ENTROU CONMO INATIVA
+
+        final var aCommand =
+                CreateCategoryCommand.with(expectedName, expectedDescription, expectedIsActive);
+
+        when(categoryGateway.create(any()))
+                .thenAnswer(returnsFirstArg());
+
+        final var actualOutput = createCategoryUseCase.execute(aCommand).get();
+
+        Assertions.assertNotNull(actualOutput);
+        Assertions.assertNotNull(actualOutput.id());
+
+        Mockito.verify(categoryGateway, times(1)).create(argThat(aCategory ->
+                Objects.equals(expectedName, aCategory.getName())
+                        && Objects.equals(expectedDescription, aCategory.getDescription())
+                        && Objects.equals(expectedIsActive, aCategory.isActive())
+                        && Objects.nonNull(aCategory.getId())
+                        && Objects.nonNull(aCategory.getCreatedAt())
+                        && Objects.nonNull(aCategory.getUpdatedAt())
+                        && Objects.nonNull(aCategory.getDeletedAt())
+        ));
+    }
+
+    @Test
+    @DisplayName("Dado um Comando Valido, Quando o gateway da erro, Deve Retornar uma exception")
+    public void givenAValidCommand_whenGatewayThrowsRandomException_shouldReturnAException() {
+        final var expectedName = "Filmes";
+        final var expectedDescription = "A categoria mais daora";
+        final var expectedIsActive = true;
+        final var expectedErrorCount = 1;
+        final var expectedErrorMessage = "Gateway error";
+
+        final var aCommand =
+                CreateCategoryCommand.with(expectedName, expectedDescription, expectedIsActive);
+
+        when(categoryGateway.create(any()))
+                .thenThrow(new IllegalStateException(expectedErrorMessage));
+
+        final var notification = createCategoryUseCase.execute(aCommand).getLeft();
+
+        Assertions.assertEquals(expectedErrorCount, notification.getErrors().size());
+        Assertions.assertEquals(expectedErrorMessage, notification.firstError().message());
+
+        Mockito.verify(categoryGateway, times(1)).create(argThat(aCategory ->
+                Objects.equals(expectedName, aCategory.getName())
+                        && Objects.equals(expectedDescription, aCategory.getDescription())
+                        && Objects.equals(expectedIsActive, aCategory.isActive())
+                        && Objects.nonNull(aCategory.getId())
+                        && Objects.nonNull(aCategory.getCreatedAt())
+                        && Objects.nonNull(aCategory.getUpdatedAt())
+                        && Objects.isNull(aCategory.getDeletedAt())
+        ));
+    }
 
 
 }
