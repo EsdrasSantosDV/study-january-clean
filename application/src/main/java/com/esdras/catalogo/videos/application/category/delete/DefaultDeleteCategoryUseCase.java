@@ -1,6 +1,7 @@
 package com.esdras.catalogo.videos.application.category.delete;
 
 import com.esdras.catalogo.videos.domain.category.CategoryGateway;
+import com.esdras.catalogo.videos.domain.category.CategoryID;
 
 import java.util.Objects;
 
@@ -15,7 +16,7 @@ public class DefaultDeleteCategoryUseCase extends DeleteCategoryUseCase {
 
 
     @Override
-    public void execute(String anIn) {
-
+    public void execute(final String anIn) {
+        this.categoryGateway.deleteById(CategoryID.from(anIn));
     }
 }
