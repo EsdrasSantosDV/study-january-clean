@@ -13,8 +13,10 @@ public class DefaultListCategoriesUseCase extends ListCategoriesUseCase {
     public DefaultListCategoriesUseCase(final CategoryGateway categoryGateway) {
         this.categoryGateway = Objects.requireNonNull(categoryGateway);
     }
+
     @Override
     public Pagination<CategoryListOutput> execute(final CategorySearchQuery aCommand) {
-        return null;
+        return this.categoryGateway.findAll(aCommand)
+                .map(CategoryListOutput::from);
     }
 }
