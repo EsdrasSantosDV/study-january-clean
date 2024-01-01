@@ -1,10 +1,23 @@
 server:
   port: 8080
+  # Define a porta em que o servidor deve escutar. 8080 é a porta padrão para aplicações web.
+
   compression:
-    enabled: true # Whether response compression is enabled.
-    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json # Comma-separated list of MIME types that should be compressed.
-    min-response-size: 1024 # Minimum "Content-Length" value that is required for compression to be performed.
+    enabled: true
+    # Ativa a compressão de resposta. Isso pode melhorar o desempenho ao reduzir o tamanho dos dados enviados ao cliente.
+
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    # Especifica os tipos MIME que devem ser comprimidos. Aqui, são incluídos tipos comuns de texto e JavaScript.
+
+    min-response-size: 1024
+    # Define o tamanho mínimo da resposta para que a compressão seja aplicada. Respostas menores que 1024 bytes não serão comprimidas.
+
   undertow:
     threads:
-      worker: 64 # Generally this should be reasonably high, at least 10 per CPU core: https://undertow.io/undertow-docs/undertow-docs-2.1.0/index.html#listeners-2
-      io: 4 # One IO thread per CPU core is a reasonable default: https://undertow.io/undertow-docs/undertow-docs-2.1.0/index.html#listeners-2
+      worker: 64
+      # Define o número de threads de trabalho do Undertow. Essas threads lidam com tarefas não bloqueantes.
+      # O valor deve ser alto, especialmente em máquinas com muitos núcleos de CPU, para lidar eficientemente com muitas solicitações simultâneas.
+
+      io: 4
+      # Define o número de threads de E/S (Entrada/Saída).
+      # Uma thread de E/S por núcleo de CPU é um bom padrão, pois essas threads lidam com operações de E/S bloqueantes e não bloqueantes.
