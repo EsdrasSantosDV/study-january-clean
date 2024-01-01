@@ -1,0 +1,8 @@
+#Override the default server thread pool settings for development.
+#Profile(development) is active by default when the "dev" Spring profile is active.
+server:
+  port: 8080
+  undertow:
+    threads:
+      worker: 10
+      io: 2
