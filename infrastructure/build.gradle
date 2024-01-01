@@ -9,6 +9,14 @@ plugins {
 group = 'com.esdras.catalogo.videos.infrastructure'
 version = '1.0-SNAPSHOT'
 
+/*
+POR PADRAO FICA O TOMCAT, MAS VAMOS USAR O UNDERTOWN QUE TEM MELHOR PERFORMANCE QUE O TOMCAT
+O NEETY E PRA REATIVO
+COM ISSO TEMOS AS DEPENDENCIAS NECESSARIAS
+ */
+
+
+
 
 bootJar {
     archiveName 'application.jar'
@@ -24,12 +32,39 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":application"))
 
+    implementation('mysql:mysql-connector-java')
+
     implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude module: 'spring-boot-starter-tomcat'
     }
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('org.springframework.boot:spring-boot-starter-undertow')
 
 }
+
+/*
+PRECISAMOS COLOCAR O CONECTOR PRA CONECTAR COM O MYSQL
+ */
+
+//TIRAR ESSAS AQUI
+/*
+  testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    PQ VAMOS USAR DO SPRING
+ */
+
+/*
+COMO ESTAMOS USANDO MODULES
+PRECISAMOS COLOCAR O DESTINATION DIRECTORY
+PQ SENÃO VIA FAZER UM JAR PRO INFRAESCRTUCTURE
+E QUEREMOS PRA APLICAÇÃO COMO UM TODO
+ */
+//PRECISAMOS COLOCAR O PLUGIN APLICATION DO GRADLE PARA QUE
+// O PROJETO SEJA RECONHECIDO COMO UMA APLICAÇÃO JAVA
+// E POSSA SER EXECUTADO PELO GRADLE
+//C COLOCAR O SPRING BOOT PARA QUE O GRADLE RECONHEÇA
+// BOOT JAR
+
 
 test {
     useJUnitPlatform()

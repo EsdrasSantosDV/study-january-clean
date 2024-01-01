@@ -1,3 +1,14 @@
+mysql:
+  username: root
+  password: 123456
+  schema: adm_videos
+  url: localhost:3306
+    # Define as configurações de conexão com o banco de dados MySQL.
+    # Essas configurações são usadas pelo Spring Boot para se conectar ao banco de dados.
+    # O Spring Boot usa o driver JDBC do MySQL para se conectar ao banco de dados.
+    # O Spring Boot configura automaticamente o driver JDBC do MySQL quando ele detecta que o driver está no classpath.
+  # O Spring Boot também configura automaticamente o pool de conexões Hikari quando detecta que o pool de conexões está no classpath.
+
 #Override the default server thread pool settings for development.
 #Profile(development) is active by default when the "dev" Spring profile is active.
 server:
