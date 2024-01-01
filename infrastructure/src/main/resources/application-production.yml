@@ -1,0 +1,8 @@
+mysql:
+  username: ${DATABASE_MYSQL_USERNAME:root}
+  password: ${DATABASE_MYSQL_PASSWORD:123456}
+  schema: adm_videos
+  url: ${DATABASE_MYSQL_URL:localhost:3306}
+    # Define as configurações de conexão com o banco de dados MySQL.
+  # Essas configurações são usadas pelo Spring Boot para se conectar ao banco de dados.
+  #ISSO PRA PRODUCTION USA AS VARIAVEIS DE AMBIENTE

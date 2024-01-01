@@ -14,4 +14,3 @@ spring:
     #O profile de teste substitui o profile de desenvolvimento.
     #PRA ISSO PRA TEST USAMOS O BANCO DE DADOS H2
     #O H2 é um banco de dados em memória que pode ser usado para testes.
-  
