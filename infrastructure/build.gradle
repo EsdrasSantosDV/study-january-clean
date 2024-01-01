@@ -1,8 +1,19 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.flywaydb:flyway-mysql:8.5.10'
+    }
+}
+
+
 plugins {
     id 'java'
     id 'application'
     id 'org.springframework.boot' version '2.6.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'org.flywaydb.flyway' version '8.5.10'
 }
 
 
@@ -41,6 +52,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-undertow')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 
+    testImplementation('org.flywaydb:flyway-core')
     testRuntimeOnly('com.h2database:h2')
 
 }
@@ -70,6 +82,14 @@ E QUEREMOS PRA APLICAÇÃO COMO UM TODO
 //C COLOCAR O SPRING BOOT PARA QUE O GRADLE RECONHEÇA
 // BOOT JAR
 
+
+flyway {
+    url = System.getenv('FLYWAY_DB') ?: 'jdbc:mysql://localhost:3306/adm_videos'
+    user = System.getenv('FLYWAY_USER') ?: 'root'
+    password = System.getenv('FLYWAY_PASS') ?: '123456'
+}
+
+//CONFIG DO FLYWAY PRA RODAR AS MIGRATIONS
 
 test {
     useJUnitPlatform()
