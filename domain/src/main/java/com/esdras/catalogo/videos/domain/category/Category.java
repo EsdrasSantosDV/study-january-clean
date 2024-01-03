@@ -4,6 +4,7 @@ import com.esdras.catalogo.videos.domain.AggregateRoot;
 import com.esdras.catalogo.videos.domain.validation.ValidationHandler;
 
 import java.time.Instant;
+import java.util.Objects;
 
 //ESSA CLASSE E UMA ENTIDADE QUE REPRESA UM AGREGADO RAIZ DE CATEGORIA DE VIDEO
 //UM AGREGADO RAIZ E UM PONTO DE PARTIDA PRA COMPOSICAO DE ENTIDADES E OBJETOS DE VALOR
@@ -25,11 +26,12 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable {
 
     private Category(final CategoryID id, final String name, final String description, final boolean active, final Instant createdAt, final Instant updatedAt, final Instant deletedAt) {
         super(id);
+        //NO CASO DE NULLABLE, O NOME NÃO PRECISMAOS VALIDAR, PQ E DEPENTENDE DO USUARIO
         this.name = name;
         this.description = description;
         this.active = active;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+        this.createdAt = Objects.requireNonNull(createdAt, "createdAt is required");
+        this.updatedAt = Objects.requireNonNull(updatedAt, "updatedAt is required");
         this.deletedAt = deletedAt;
     }
 
