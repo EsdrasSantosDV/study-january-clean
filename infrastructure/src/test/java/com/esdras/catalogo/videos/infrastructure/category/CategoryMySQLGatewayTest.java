@@ -1,6 +1,7 @@
 package com.esdras.catalogo.videos.infrastructure.category;
 
 import com.esdras.catalogo.videos.domain.category.Category;
+import com.esdras.catalogo.videos.domain.category.CategoryID;
 import com.esdras.catalogo.videos.infrastructure.MySQLGatewayTest;
 import com.esdras.catalogo.videos.infrastructure.category.persistence.CategoryJpaEntity;
 import com.esdras.catalogo.videos.infrastructure.category.persistence.CategoryRepository;
@@ -113,5 +114,40 @@ public class CategoryMySQLGatewayTest {
         Assertions.assertNull(actualEntity.getDeletedAt());
     }
 
+    @Test
+    @DisplayName("Dado uma categoria válida, quando chamar o método deleteById, então deve retornar uma categoria deletada")
+    public void givenAPrePersistedCategoryAndValidCategoryId_whenTryToDeleteIt_shouldDeleteCategory() {
+        final var aCategory = Category.newCategory("Filmes", null, true);
+
+        //PRA TESTAR SE DELETOU MESMO
+        //VIMOS SE TA 0 ANTES
+        Assertions.assertEquals(0, categoryRepository.count());
+
+        //SALVA
+        categoryRepository.saveAndFlush(CategoryJpaEntity.from(aCategory));
+
+        //VE SE ADICIONOU
+        Assertions.assertEquals(1, categoryRepository.count());
+
+        //DELETAR USANDO O GATEWAY
+        categoryGateway.deleteById(aCategory.getId());
+
+        //E VER SE DELETOU MESMO
+        Assertions.assertEquals(0, categoryRepository.count());
+    }
+
+
+    @Test
+    @DisplayName("Dado uma categoria inválida, quando chamar o método deleteById, então deve retornar uma categoria deletada")
+    public void givenInvalidCategoryId_whenTryToDeleteIt_shouldDeleteCategory() {
+        //VE SE ADICIONOU
+        Assertions.assertEquals(0, categoryRepository.count());
+
+        //DELETAR USANDO O GATEWAY
+        categoryGateway.deleteById(CategoryID.from("id invalido"));
+
+        //E VER SE DELETOU MESMO
+        Assertions.assertEquals(0, categoryRepository.count());
+    }
 
 }
