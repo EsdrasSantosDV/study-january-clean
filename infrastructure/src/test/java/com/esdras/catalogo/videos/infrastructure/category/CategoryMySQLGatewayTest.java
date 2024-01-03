@@ -180,4 +180,14 @@ public class CategoryMySQLGatewayTest {
     }
 
 
+    @Test
+    @DisplayName("Dado uma categoria inválida, quando chamar o método findById, então deve retornar uma categoria vazia")
+    public void givenValidCategoryIdNotStored_whenCallsFindById_shouldReturnEmpty() {
+        Assertions.assertEquals(0, categoryRepository.count());
+
+        final var actualCategory = categoryGateway.findById(CategoryID.from("empty"));
+
+        Assertions.assertTrue(actualCategory.isEmpty());
+    }
+
 }
