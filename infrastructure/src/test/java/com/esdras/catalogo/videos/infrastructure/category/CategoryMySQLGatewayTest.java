@@ -1,9 +1,9 @@
 package com.esdras.catalogo.videos.infrastructure.category;
 
+import com.esdras.catalogo.videos.MySQLGatewayTest;
 import com.esdras.catalogo.videos.domain.category.Category;
 import com.esdras.catalogo.videos.domain.category.CategoryID;
 import com.esdras.catalogo.videos.domain.category.CategorySearchQuery;
-import com.esdras.catalogo.videos.infrastructure.MySQLGatewayTest;
 import com.esdras.catalogo.videos.infrastructure.category.persistence.CategoryJpaEntity;
 import com.esdras.catalogo.videos.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;

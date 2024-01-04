@@ -1,8 +1,8 @@
 package com.esdras.catalogo.videos.infrastructure.category.persistence;
 
 
+import com.esdras.catalogo.videos.MySQLGatewayTest;
 import com.esdras.catalogo.videos.domain.category.Category;
-import com.esdras.catalogo.videos.infrastructure.MySQLGatewayTest;
 import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
