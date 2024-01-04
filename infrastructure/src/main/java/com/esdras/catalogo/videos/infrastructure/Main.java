@@ -16,4 +16,17 @@ public class Main {
         System.setProperty(AbstractEnvironment.DEFAULT_PROFILES_PROPERTY_NAME, "development");
         SpringApplication.run(WebServerConfig.class, args);
     }
+
+    //testar se a aplicação esta funcionando corretamente e ver se tem os beans pra cada use case
+//    @Bean
+//    @DependsOnDatabaseInitialization
+//    ApplicationRunner runner(
+//            @Autowired CreateCategoryUseCase createCategoryUseCase
+//    ) {
+//        return args -> {
+//
+//        };
+//    }
+
+
 }

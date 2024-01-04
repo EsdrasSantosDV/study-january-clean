@@ -7,10 +7,15 @@ import com.esdras.catalogo.videos.domain.category.CategorySearchQuery;
 import com.esdras.catalogo.videos.domain.pagination.Pagination;
 import com.esdras.catalogo.videos.infrastructure.category.persistence.CategoryJpaEntity;
 import com.esdras.catalogo.videos.infrastructure.category.persistence.CategoryRepository;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 import java.util.Optional;
+
+import static com.esdras.catalogo.videos.infrastructure.utils.SpecificationUtils.like;
 
 @Service
 //PODEMOS COLOCAR TBM COMPONENT
@@ -53,7 +58,39 @@ public class CategoryMySQLGateway implements CategoryGateway {
 
     @Override
     public Pagination<Category> findAll(CategorySearchQuery aQuery) {
-        return null;
+
+        //CIRAÇÃO DAS ESPECIFICAÇÕES DA PAGE
+        //O SPECIFICATION VAI SER PRO WHERE E OS PARAMETROS DE PAGINAS
+        //TANTO PRA QUAL E A PAGINA, QUANTOS POR PAGINA E SE E ASC OU DESC
+        final var page = PageRequest.of(
+                aQuery.page(),
+                aQuery.perPage(),
+                Sort.by(Sort.Direction.fromString(aQuery.direction()), aQuery.sort())
+        );
+
+        //CRIAÇÃO DAS ESPECIFICAÇÕES DA QUERY
+        //SO QUE SE NÃO TIVER, NEM VAI FAZER AS ESPECIFIÇÃO
+        //PRA ISSO O FILTER
+        //DEPOIS MAPPEAR E CRIAR UMA ESPCIFICAÇÃO DE BUSCA PRA CADA UM DOS CAMPOS
+        final var specifications = Optional.ofNullable(aQuery.terms())
+                .filter(str -> !str.isBlank())
+                .map(str -> {
+                    final Specification<CategoryJpaEntity> nameLike = like("name", str);
+                    final Specification<CategoryJpaEntity> descriptionLike = like("description", str);
+                    return nameLike.or(descriptionLike);
+                })
+                .orElse(null);
+
+        final var pageResult =
+                this.repository.findAll(Specification.where(specifications), page);
+
+        //DEPOIS DISSO SO RETORNAR A PAGINAÇÃO PROS PARAMETROS GENERICOS
+        return new Pagination<>(
+                pageResult.getNumber(),
+                pageResult.getSize(),
+                pageResult.getTotalElements(),
+                pageResult.map(CategoryJpaEntity::toAggregate).toList()
+        );
     }
 
     private Category save(final Category aCategory) {
