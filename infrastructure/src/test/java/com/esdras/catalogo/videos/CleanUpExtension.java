@@ -14,9 +14,6 @@ public class CleanUpExtension implements BeforeEachCallback {
     //ISSO PRA LIMPAR O BANCO DE DADOS ANTES DE CADA TESTE
     @Override
     public void beforeEach(final ExtensionContext context) {
-        //ISSO LIMPA TODOS OS REPOSTIORIES DANDO UM DELETE PRA CADA UM, DIRETAMENTE DO MAIS ALTO NIVEL
-        //QUE E O CRUD REPOSITORY
-        //PQ O REPOSITORYU NÕ TEM METODOS
         final var repositories = SpringExtension
                 .getApplicationContext(context)
                 .getBeansOfType(CrudRepository.class)
