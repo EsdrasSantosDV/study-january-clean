@@ -242,6 +242,7 @@ public class CategoryAPITest {
     }
 
     @Test
+    @DisplayName("Dado um id validar,quando chamar o get by id de categoria, retornar category")
     public void givenAValidCommand_whenCallsUpdateCategory_shouldReturnCategoryId() throws Exception {
         // given
         final var expectedId = "123";
@@ -277,6 +278,7 @@ public class CategoryAPITest {
     }
 
     @Test
+    @DisplayName("Dado um comando com nome nulo, quando chamar o caso de uso de atualizar categoria, então deve retornar uma exceção")
     public void givenAInvalidName_whenCallsUpdateCategory_thenShouldReturnDomainException() throws Exception {
         // given
         final var expectedId = "123";
@@ -316,6 +318,7 @@ public class CategoryAPITest {
     }
 
     @Test
+    @DisplayName("Dado um comando invalido, quando chama o caso de uso de atualizar categoria, então deve retornar uma exceção")
     public void givenACommandWithInvalidID_whenCallsUpdateCategory_shouldReturnNotFoundException() throws Exception {
         // given
         final var expectedId = "not-found";

@@ -3,7 +3,7 @@ package com.esdras.catalogo.videos.application.category.update;
 import com.esdras.catalogo.videos.domain.category.Category;
 import com.esdras.catalogo.videos.domain.category.CategoryGateway;
 import com.esdras.catalogo.videos.domain.category.CategoryID;
-import com.esdras.catalogo.videos.domain.exceptions.DomainException;
+import com.esdras.catalogo.videos.domain.exceptions.NotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,7 +34,6 @@ public class UpdateCategoryUseCaseTest {
     void cleanUp() {
         Mockito.reset(categoryGateway);
     }
-
 
 
     //PRA ATUALIZA
@@ -220,10 +219,10 @@ public class UpdateCategoryUseCaseTest {
                 .thenReturn(Optional.empty());
 
         final var actualException =
-                Assertions.assertThrows(DomainException.class, () -> useCase.execute(aCommand));
+                Assertions.assertThrows(NotFoundException.class, () -> useCase.execute(aCommand));
 
-        Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
-        Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());
+
+        Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
 
         Mockito.verify(categoryGateway, times(1)).findById(eq(CategoryID.from(expectedId)));
 
