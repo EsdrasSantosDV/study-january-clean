@@ -1,16 +1,14 @@
 package com.esdras.catalogo.videos.infrastructure.api;
 
 import com.esdras.catalogo.videos.domain.pagination.Pagination;
+import com.esdras.catalogo.videos.infrastructure.category.models.CreateCategoryApiInput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 //TANTO FAZ / OU SEM BARRA SPRING JA VE
 @RequestMapping(value = "categories")
@@ -32,7 +30,8 @@ public interface CategoryAPI {
             @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
     })
         //TEM MUITAS MAIS CONFIGURAÇOES DE DOCUMENTAÇÃO
-    ResponseEntity<?> createCategory();
+        //cCOM O REQUEST BODY
+    ResponseEntity<?> createCategory(@RequestBody CreateCategoryApiInput input);
 
     //NO SPRING ELE JA FAZ O PROPRIO PARSE PRA GENTE PRA INT
     @GetMapping

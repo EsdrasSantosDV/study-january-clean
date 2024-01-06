@@ -3,7 +3,6 @@ package com.esdras.catalogo.videos.infrastructure.api;
 import com.esdras.catalogo.videos.ControllerTest;
 import com.esdras.catalogo.videos.application.category.create.CreateCategoryOutput;
 import com.esdras.catalogo.videos.application.category.create.CreateCategoryUseCase;
-import com.esdras.catalogo.videos.domain.category.CategoryID;
 import com.esdras.catalogo.videos.infrastructure.category.models.CreateCategoryApiInput;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -16,12 +15,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Objects;
 
 import static io.vavr.API.Right;
+import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 //ESSA ANOTAÇÃO CONTROLLER TESTE, SO VAI FAZER O SCAN DOS CONTROLLERS
 //E REST CONTROLELRS, E NÃO DOS SCANS DE SERVICES E COMPONENTES
@@ -57,7 +56,7 @@ public class CategoryAPITest {
 
         //precisamos retornar um either
         when(createCategoryUseCase.execute(any()))
-                .thenReturn(Right(CreateCategoryOutput.from(CategoryID.from("123"))));
+                .thenReturn(Right(CreateCategoryOutput.from("123")));
 
         //PRECISAMOS DA MOCK MVC REQUEST BUILDERS
         final var request = post("/categories")
@@ -69,7 +68,9 @@ public class CategoryAPITest {
 
         this.mvc.perform(request).andDo(print()).andExpectAll(
                 status().isCreated(),
-                header().string("Location", "/categories/123")
+                header().string("Location", "/categories/123"),
+                header().string("Content-Type", MediaType.APPLICATION_JSON_VALUE),
+                jsonPath("$.id", equalTo("123"))
         );
 
         //VERIFICAR SE O USE CASE FOI CHAMADO UMA VEZ, E SE OS VALORES DOS ARGUMENTOS TEM O MESMO VALOR DO COMAMNDO CERTO
