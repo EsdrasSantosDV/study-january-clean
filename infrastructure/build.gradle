@@ -39,6 +39,13 @@ repositories {
     mavenCentral()
 }
 
+/*
+pra colcoar o swagger
+  implementation('org.springdoc:springdoc-openapi-webmvc-core:1.6.14')
+    implementation('org.springdoc:springdoc-openapi-ui:1.6.14')
+    //depois olha a versão
+ */
+
 dependencies {
     implementation(project(":domain"))
     implementation(project(":application"))
@@ -46,6 +53,9 @@ dependencies {
     implementation('io.vavr:vavr:0.10.4')
 
     implementation('mysql:mysql-connector-java')
+
+    implementation('org.springdoc:springdoc-openapi-webmvc-core:1.6.8')
+    implementation('org.springdoc:springdoc-openapi-ui:1.6.8')
 
     implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude module: 'spring-boot-starter-tomcat'
