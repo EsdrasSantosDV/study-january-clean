@@ -19,9 +19,10 @@ import java.lang.annotation.*;
 // ISSO PRA CONFIGURAR OS BEANS POR PADRÃO
 //QUE TEM ESSE MYSQL Gateway
 @ComponentScan(includeFilters = {
-        @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".*[MySQLGateway]")
+        @ComponentScan.Filter(type = FilterType.REGEX, pattern = ".[MySQLGateway]")
 })
 @DataJpaTest
+//O DATA JPA TEST TA PRA CONFIG DE PERSISTNECIA PRA DEIXAR MAIS RAPIDO OS TESTES
 @ExtendWith(CleanUpExtension.class)
 public @interface MySQLGatewayTest {
 
