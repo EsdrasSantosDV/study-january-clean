@@ -133,4 +133,5 @@ public class CreateCategoryUseCaseIT {
         Assertions.assertEquals(expectedErrorCount, notification.getErrors().size());
         Assertions.assertEquals(expectedErrorMessage, notification.firstError().message());
     }
+
 }
