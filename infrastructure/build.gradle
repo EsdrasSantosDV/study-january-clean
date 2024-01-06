@@ -63,11 +63,20 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('org.springframework.boot:spring-boot-starter-undertow')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+    implementation('com.fasterxml.jackson.module:jackson-module-afterburner')
+
 
     testImplementation('org.flywaydb:flyway-core')
     testRuntimeOnly('com.h2database:h2')
 
 }
+//PRECISAMOS DESSE AFTER MODULE MODULE
+/*
+  implementation('com.fasterxml.jackson.module:jackson-module-afterburner')
+
+
+ */
+
 //PRECISAMOS COLOCAR O CONECTOR PRA CONECTAR COM O MYSQL
 // PRA RUNTIME DO H2
 

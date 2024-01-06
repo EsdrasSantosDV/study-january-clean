@@ -81,7 +81,9 @@ public class CategoryController implements CategoryAPI {
 
     @Override
     public Pagination<?> listCategories(String search, int page, int perPage, String sort, String direction) {
-        return listCategoriesUseCase.execute(new CategorySearchQuery(page, perPage, search, sort, direction));
+        return listCategoriesUseCase.execute(new CategorySearchQuery(page, perPage, search, sort, direction)).map(
+                CategoryApiPresenter::present
+        );
     }
 
     @Override
