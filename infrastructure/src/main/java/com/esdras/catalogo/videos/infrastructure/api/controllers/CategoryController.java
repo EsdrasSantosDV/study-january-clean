@@ -3,10 +3,13 @@ package com.esdras.catalogo.videos.infrastructure.api.controllers;
 import com.esdras.catalogo.videos.application.category.create.CreateCategoryCommand;
 import com.esdras.catalogo.videos.application.category.create.CreateCategoryOutput;
 import com.esdras.catalogo.videos.application.category.create.CreateCategoryUseCase;
+import com.esdras.catalogo.videos.application.category.retrieve.get.GetCategoryByIdUseCase;
 import com.esdras.catalogo.videos.domain.pagination.Pagination;
 import com.esdras.catalogo.videos.domain.validation.handler.Notification;
 import com.esdras.catalogo.videos.infrastructure.api.CategoryAPI;
-import com.esdras.catalogo.videos.infrastructure.category.models.CreateCategoryApiInput;
+import com.esdras.catalogo.videos.infrastructure.category.models.CategoryResponse;
+import com.esdras.catalogo.videos.infrastructure.category.models.CreateCategoryRequest;
+import com.esdras.catalogo.videos.infrastructure.category.presenters.CategoryApiPresenter;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,14 +23,18 @@ import java.util.function.Function;
 public class CategoryController implements CategoryAPI {
 
     private final CreateCategoryUseCase createCategoryUseCase;
+    private final GetCategoryByIdUseCase getCategoryByIdUseCase;
 
-    public CategoryController(final CreateCategoryUseCase createCategoryUseCase) {
+
+    public CategoryController(final CreateCategoryUseCase createCategoryUseCase,
+                              final GetCategoryByIdUseCase getCategoryByIdUseCase) {
         this.createCategoryUseCase = Objects.requireNonNull(createCategoryUseCase);
+        this.getCategoryByIdUseCase = Objects.requireNonNull(getCategoryByIdUseCase);
     }
 
 
     @Override
-    public ResponseEntity<?> createCategory(final CreateCategoryApiInput input) {
+    public ResponseEntity<?> createCategory(final CreateCategoryRequest input) {
 
         //O BOOLEAN DO COMMAND  E UM BOOLEAN PRIMITIVO, MAS COMO API INPUT E UM BOOLEAN DA CLASSE
         //ELE PODE SER NULO, POR ISSO PRECISA DE UMA TRATATIVA
@@ -55,5 +62,14 @@ public class CategoryController implements CategoryAPI {
     @Override
     public Pagination<?> listCategories(String search, int page, int perPage, String sort, String direction) {
         return null;
+    }
+
+    @Override
+    public CategoryResponse getById(String id) {
+        //DA MANEIRA PADRAO
+        //return CategoryApiPresenter.present(getCategoryByIdUseCase.execute(id));
+        // DA MANERIA FUNCIONAL QUE GOSTEI BASTANTE
+        //CHAMA O METODO DEPOIS O PRESENT
+        return CategoryApiPresenter.present.compose(getCategoryByIdUseCase::execute).apply(id);
     }
 }

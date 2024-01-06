@@ -6,10 +6,10 @@ import java.util.List;
 
 //AO INVES DE FICAR DANDO VARIOS ERROS, VAMOS GERAR UMA LISTA DE ERROS DE UMA VEZ
 //E VAMOS LANÇAR UMA EXCEÇÃO COM ESSA LISTA DE ERROS
-public class DomainException extends NoStacktraceException{
+public class DomainException extends NoStacktraceException {
     private final List<Error> errors;
 
-    private DomainException(final String aMessage, final List<Error> anErrors) {
+    protected DomainException(final String aMessage, final List<Error> anErrors) {
         super(aMessage);
         this.errors = anErrors;
     }

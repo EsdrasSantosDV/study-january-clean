@@ -9,16 +9,16 @@ import java.util.UUID;
 Essa abastração serve pra definir um identificador pra categoria
 , tanto pra depois vc gerar a identidade, tanto pra vir do banco pra colocar pro dominio
  */
-public class CategoryID extends Identifier{
+public class CategoryID extends Identifier {
 
     private final String value;
 
-    private CategoryID(final String value){
+    private CategoryID(final String value) {
         Objects.requireNonNull(value);
-        this.value=value;
+        this.value = value;
     }
 
-    public static CategoryID unique(){
+    public static CategoryID unique() {
         return CategoryID.from(UUID.randomUUID());
     }
 
@@ -30,6 +30,7 @@ public class CategoryID extends Identifier{
         return new CategoryID(anId.toString().toLowerCase());
     }
 
+    @Override
     public String getValue() {
         return value;
     }
@@ -46,7 +47,6 @@ public class CategoryID extends Identifier{
     public int hashCode() {
         return Objects.hash(getValue());
     }
-
 
 
 }

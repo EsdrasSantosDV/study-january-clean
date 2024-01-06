@@ -4,7 +4,7 @@ import com.esdras.catalogo.videos.IntegrationTest;
 import com.esdras.catalogo.videos.domain.category.Category;
 import com.esdras.catalogo.videos.domain.category.CategoryGateway;
 import com.esdras.catalogo.videos.domain.category.CategoryID;
-import com.esdras.catalogo.videos.domain.exceptions.DomainException;
+import com.esdras.catalogo.videos.domain.exceptions.NotFoundException;
 import com.esdras.catalogo.videos.infrastructure.category.persistence.CategoryJpaEntity;
 import com.esdras.catalogo.videos.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -52,7 +52,7 @@ public class GetCategoryByIdUseCaseIT {
         Assertions.assertEquals(expectedName, actualCategory.name());
         Assertions.assertEquals(expectedDescription, actualCategory.description());
         Assertions.assertEquals(expectedIsActive, actualCategory.isActive());
-    
+
     }
 
     @Test
@@ -62,7 +62,7 @@ public class GetCategoryByIdUseCaseIT {
         final var expectedId = CategoryID.from("123");
 
         final var actualException = Assertions.assertThrows(
-                DomainException.class,
+                NotFoundException.class,
                 () -> useCase.execute(expectedId.getValue())
         );
 

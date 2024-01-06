@@ -4,7 +4,7 @@ package com.esdras.catalogo.videos.application.category.update;
 import com.esdras.catalogo.videos.IntegrationTest;
 import com.esdras.catalogo.videos.domain.category.Category;
 import com.esdras.catalogo.videos.domain.category.CategoryGateway;
-import com.esdras.catalogo.videos.domain.exceptions.DomainException;
+import com.esdras.catalogo.videos.domain.exceptions.NotFoundException;
 import com.esdras.catalogo.videos.infrastructure.category.persistence.CategoryJpaEntity;
 import com.esdras.catalogo.videos.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -192,7 +192,7 @@ public class UpdateCategoryUseCaseIT {
         );
 
         final var actualException =
-                Assertions.assertThrows(DomainException.class, () -> useCase.execute(aCommand));
+                Assertions.assertThrows(NotFoundException.class, () -> useCase.execute(aCommand));
 
         Assertions.assertEquals(expectedErrorCount, actualException.getErrors().size());
         Assertions.assertEquals(expectedErrorMessage, actualException.getErrors().get(0).message());

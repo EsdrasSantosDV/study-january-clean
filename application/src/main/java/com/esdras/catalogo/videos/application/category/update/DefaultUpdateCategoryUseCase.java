@@ -3,8 +3,7 @@ package com.esdras.catalogo.videos.application.category.update;
 import com.esdras.catalogo.videos.domain.category.Category;
 import com.esdras.catalogo.videos.domain.category.CategoryGateway;
 import com.esdras.catalogo.videos.domain.category.CategoryID;
-import com.esdras.catalogo.videos.domain.exceptions.DomainException;
-import com.esdras.catalogo.videos.domain.validation.Error;
+import com.esdras.catalogo.videos.domain.exceptions.NotFoundException;
 import com.esdras.catalogo.videos.domain.validation.handler.Notification;
 import io.vavr.control.Either;
 
@@ -14,13 +13,14 @@ import java.util.function.Supplier;
 import static io.vavr.API.Left;
 import static io.vavr.API.Try;
 
-public class DefaultUpdateCategoryUseCase extends UpdateCategoryUseCase{
+public class DefaultUpdateCategoryUseCase extends UpdateCategoryUseCase {
 
     private final CategoryGateway categoryGateway;
 
     public DefaultUpdateCategoryUseCase(final CategoryGateway categoryGateway) {
         this.categoryGateway = Objects.requireNonNull(categoryGateway);
     }
+
     @Override
     public Either<Notification, UpdateCategoryOutput> execute(final UpdateCategoryCommand aCommand) {
         final var anId = CategoryID.from(aCommand.id());
@@ -45,9 +45,7 @@ public class DefaultUpdateCategoryUseCase extends UpdateCategoryUseCase{
                 .bimap(Notification::create, UpdateCategoryOutput::from);
     }
 
-    private Supplier<DomainException> notFound(final CategoryID anId) {
-        return () -> DomainException.with(
-                new Error("Category with ID %s was not found".formatted(anId.getValue()))
-        );
+    private Supplier<NotFoundException> notFound(final CategoryID anId) {
+        return () -> NotFoundException.with(Category.class, anId);
     }
 }

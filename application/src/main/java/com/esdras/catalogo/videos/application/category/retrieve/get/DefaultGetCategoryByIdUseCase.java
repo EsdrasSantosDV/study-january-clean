@@ -1,9 +1,10 @@
 package com.esdras.catalogo.videos.application.category.retrieve.get;
 
+import com.esdras.catalogo.videos.domain.category.Category;
 import com.esdras.catalogo.videos.domain.category.CategoryGateway;
 import com.esdras.catalogo.videos.domain.category.CategoryID;
-import com.esdras.catalogo.videos.domain.exceptions.DomainException;
-import com.esdras.catalogo.videos.domain.validation.Error;
+import com.esdras.catalogo.videos.domain.exceptions.NotFoundException;
+
 import java.util.Objects;
 import java.util.function.Supplier;
 
@@ -25,9 +26,7 @@ public class DefaultGetCategoryByIdUseCase extends GetCategoryByIdUseCase {
     }
 
 
-    private Supplier<DomainException> notFound(final CategoryID anId) {
-        return () -> DomainException.with(
-                new Error("Category with ID %s was not found".formatted(anId.getValue()))
-        );
+    private Supplier<NotFoundException> notFound(final CategoryID anId) {
+        return () -> NotFoundException.with(Category.class, anId);
     }
 }

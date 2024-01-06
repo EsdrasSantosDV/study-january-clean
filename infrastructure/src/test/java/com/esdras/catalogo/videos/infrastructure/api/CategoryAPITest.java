@@ -8,9 +8,10 @@ import com.esdras.catalogo.videos.application.category.retrieve.get.GetCategoryB
 import com.esdras.catalogo.videos.domain.category.Category;
 import com.esdras.catalogo.videos.domain.category.CategoryID;
 import com.esdras.catalogo.videos.domain.exceptions.DomainException;
+import com.esdras.catalogo.videos.domain.exceptions.NotFoundException;
 import com.esdras.catalogo.videos.domain.validation.Error;
 import com.esdras.catalogo.videos.domain.validation.handler.Notification;
-import com.esdras.catalogo.videos.infrastructure.category.models.CreateCategoryApiInput;
+import com.esdras.catalogo.videos.infrastructure.category.models.CreateCategoryRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,7 +65,7 @@ public class CategoryAPITest {
         final var expectedIsActive = true;
 
         final var apiInput =
-                new CreateCategoryApiInput(expectedName, expectedDescription, expectedIsActive);
+                new CreateCategoryRequest(expectedName, expectedDescription, expectedIsActive);
 
         //precisamos retornar um either
         when(createCategoryUseCase.execute(any()))
@@ -103,7 +104,7 @@ public class CategoryAPITest {
         final var expectedMessage = "'name' should not be null";
 
         final var apiInput =
-                new CreateCategoryApiInput(expectedName, expectedDescription, expectedIsActive);
+                new CreateCategoryRequest(expectedName, expectedDescription, expectedIsActive);
 
         //precisamos retornar um either
         when(createCategoryUseCase.execute(any()))
@@ -146,7 +147,7 @@ public class CategoryAPITest {
         final var expectedMessage = "'name' should not be null";
 
         final var apiInput =
-                new CreateCategoryApiInput(expectedName, expectedDescription, expectedIsActive);
+                new CreateCategoryRequest(expectedName, expectedDescription, expectedIsActive);
 
         when(createCategoryUseCase.execute(any()))
                 .thenThrow(DomainException.with(new Error(expectedMessage)));
@@ -175,6 +176,7 @@ public class CategoryAPITest {
     }
 
     @Test
+    @DisplayName("Dado um id ,quando chamar o get by id de categoria, retornar a categoria")
     public void givenAValidId_whenCallsGetCategory_shouldReturnCategory() throws Exception {
         // given
         final var expectedName = "Filmes";
@@ -212,6 +214,7 @@ public class CategoryAPITest {
     }
 
     @Test
+    @DisplayName("Dado um id invalido,quando chamar o get by id de categoria, retornar not found")
     public void givenAInvalidId_whenCallsGetCategory_shouldReturnNotFound() throws Exception {
         // given
         final var expectedErrorMessage = "Category with ID 123 was not found";

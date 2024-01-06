@@ -1,7 +1,8 @@
 package com.esdras.catalogo.videos.infrastructure.api;
 
 import com.esdras.catalogo.videos.domain.pagination.Pagination;
-import com.esdras.catalogo.videos.infrastructure.category.models.CreateCategoryApiInput;
+import com.esdras.catalogo.videos.infrastructure.category.models.CategoryResponse;
+import com.esdras.catalogo.videos.infrastructure.category.models.CreateCategoryRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -33,7 +34,7 @@ public interface CategoryAPI {
     })
         //TEM MUITAS MAIS CONFIGURAÇOES DE DOCUMENTAÇÃO
         //cCOM O REQUEST BODY
-    ResponseEntity<?> createCategory(@RequestBody CreateCategoryApiInput input);
+    ResponseEntity<?> createCategory(@RequestBody CreateCategoryRequest input);
 
     //NO SPRING ELE JA FAZ O PROPRIO PARSE PRA GENTE PRA INT
     @GetMapping
@@ -50,5 +51,18 @@ public interface CategoryAPI {
             @RequestParam(name = "dir", required = false, defaultValue = "asc") final String direction
 
     );
+
+    @GetMapping(
+            value = "{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    @Operation(summary = "Get a category by it's identifier")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Category retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "Category was not found"),
+            @ApiResponse(responseCode = "500", description = "An internal server error was thrown"),
+    })
+    CategoryResponse getById(@PathVariable(name = "id") String id);
+
 
 }
