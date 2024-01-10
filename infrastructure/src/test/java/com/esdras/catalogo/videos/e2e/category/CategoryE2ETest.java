@@ -114,6 +114,46 @@ public class CategoryE2ETest {
                 .andExpect(jsonPath("$.items", hasSize(0)));
     }
 
+    @Test
+    @DisplayName("Dado se o catalogo e um admin, ele esta logado e os valores sao validos, entao ele deve pegar todas as categorias entre a pesquisa")
+    public void asACatalogAdminIShouldBeAbleToSearchBetweenAllCategories() throws Exception {
+        Assertions.assertTrue(MYSQL_CONTAINER.isRunning());
+        Assertions.assertEquals(0, categoryRepository.count());
+
+        givenACategory("Filmes", null, true);
+        givenACategory("Documentários", null, true);
+        givenACategory("Séries", null, true);
+
+        listCategories(0, 1, "fil")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.current_page", equalTo(0)))
+                .andExpect(jsonPath("$.per_page", equalTo(1)))
+                .andExpect(jsonPath("$.total", equalTo(1)))
+                .andExpect(jsonPath("$.items", hasSize(1)))
+                .andExpect(jsonPath("$.items[0].name", equalTo("Filmes")));
+    }
+
+    @Test
+    @DisplayName("Dado se o catalogo e um admin, ele esta logado e os valores sao validos, entao ele deve pegar todas as categorias entre as descricoes desc")
+    public void asACatalogAdminIShouldBeAbleToSortAllCategoriesByDescriptionDesc() throws Exception {
+        Assertions.assertTrue(MYSQL_CONTAINER.isRunning());
+        Assertions.assertEquals(0, categoryRepository.count());
+
+        givenACategory("Filmes", "C", true);
+        givenACategory("Documentários", "Z", true);
+        givenACategory("Séries", "A", true);
+
+        listCategories(0, 3, "", "description", "desc")
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.current_page", equalTo(0)))
+                .andExpect(jsonPath("$.per_page", equalTo(3)))
+                .andExpect(jsonPath("$.total", equalTo(3)))
+                .andExpect(jsonPath("$.items", hasSize(3)))
+                .andExpect(jsonPath("$.items[0].name", equalTo("Documentários")))
+                .andExpect(jsonPath("$.items[1].name", equalTo("Filmes")))
+                .andExpect(jsonPath("$.items[2].name", equalTo("Séries")));
+    }
+
     private ResultActions listCategories(final int page, final int perPage) throws Exception {
         return listCategories(page, perPage, "", "", "");
     }
