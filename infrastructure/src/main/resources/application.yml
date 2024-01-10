@@ -2,6 +2,10 @@ server:
   port: 8080
   # Define a porta em que o servidor deve escutar. 8080 é a porta padrão para aplicações web.
 
+  servlet:
+    context-path: /api
+      # Define o caminho do contexto da aplicação. O contexto da aplicação é o prefixo das URLs da aplicação.
+    # Por exemplo, se o contexto da aplicação for "/api", a URL "/api/videos" será mapeada para o controller de vídeos.
   compression:
     enabled: true
     # Ativa a compressão de resposta. Isso pode melhorar o desempenho ao reduzir o tamanho dos dados enviados ao cliente.
