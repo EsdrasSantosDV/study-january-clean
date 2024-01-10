@@ -2,6 +2,7 @@ package com.esdras.catalogo.videos.e2e.category;
 
 import com.esdras.catalogo.videos.E2ETest;
 import com.esdras.catalogo.videos.domain.category.CategoryID;
+import com.esdras.catalogo.videos.infrastructure.category.models.CategoryResponse;
 import com.esdras.catalogo.videos.infrastructure.category.models.CreateCategoryRequest;
 import com.esdras.catalogo.videos.infrastructure.category.persistence.CategoryRepository;
 import com.esdras.catalogo.videos.infrastructure.configuration.json.Json;
@@ -154,6 +155,43 @@ public class CategoryE2ETest {
                 .andExpect(jsonPath("$.items[2].name", equalTo("Séries")));
     }
 
+    @Test
+    @DisplayName("Dado o catologo e se ele esta habilidato a dar um get na categoria pelo identificador")
+    public void asACatalogAdminIShouldBeAbleToGetACategoryByItsIdentifier() throws Exception {
+        Assertions.assertTrue(MYSQL_CONTAINER.isRunning());
+        Assertions.assertEquals(0, categoryRepository.count());
+
+        final var expectedName = "Filmes";
+        final var expectedDescription = "A categoria mais assistida";
+        final var expectedIsActive = true;
+
+        final var actualId = givenACategory(expectedName, expectedDescription, expectedIsActive);
+
+        final var actualCategory = retrieveACategory(actualId.getValue());
+
+        Assertions.assertEquals(expectedName, actualCategory.name());
+        Assertions.assertEquals(expectedDescription, actualCategory.description());
+        Assertions.assertEquals(expectedIsActive, actualCategory.active());
+        Assertions.assertNotNull(actualCategory.createdAt());
+        Assertions.assertNotNull(actualCategory.updatedAt());
+        Assertions.assertNull(actualCategory.deletedAt());
+    }
+
+    @Test
+    @DisplayName("Dado o catologo e se ele esta habilidato a dar um get na categoria e dar um not found")
+    public void asACatalogAdminIShouldBeAbleToSeeATreatedErrorByGettingANotFoundCategory() throws Exception {
+        Assertions.assertTrue(MYSQL_CONTAINER.isRunning());
+        Assertions.assertEquals(0, categoryRepository.count());
+
+        final var aRequest = get("/categories/123")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        this.mvc.perform(aRequest)
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message", equalTo("Category with ID 123 was not found")));
+    }
+
     private ResultActions listCategories(final int page, final int perPage) throws Exception {
         return listCategories(page, perPage, "", "", "");
     }
@@ -198,4 +236,17 @@ public class CategoryE2ETest {
         return CategoryID.from(actualId);
     }
 
+    private CategoryResponse retrieveACategory(final String anId) throws Exception {
+
+        final var aRequest = get("/categories/" + anId)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON);
+
+        final var json = this.mvc.perform(aRequest)
+                .andExpect(status().isOk())
+                .andReturn()
+                .getResponse().getContentAsString();
+
+        return Json.readValue(json, CategoryResponse.class);
+    }
 }
