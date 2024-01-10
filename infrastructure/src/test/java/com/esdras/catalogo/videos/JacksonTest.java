@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@ActiveProfiles("test")
+@ActiveProfiles("test-integration")
 //ESSE JSON TEST SERVE PRA TESTE DE DESSERIALIZAÇÃO E SERIALIZAÇÃO DE JSON PRA OBJETO E VICE VERSA
 @JsonTest(includeFilters = {
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = ObjectMapperConfig.class)

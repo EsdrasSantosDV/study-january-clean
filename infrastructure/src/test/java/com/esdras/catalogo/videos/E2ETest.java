@@ -1,22 +1,20 @@
 package com.esdras.catalogo.videos;
 
-
 import com.esdras.catalogo.videos.infrastructure.configuration.WebServerConfig;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.lang.annotation.*;
 
-//DIFERENTE DOS DE GATEWARY QUE É DATA JPA TEST
-//O DE INTEGRAÇÃO É SPRING BOOT TEST
-//PERCORRENDO TODOS OS BEANS CRIADOS POR MIM NA CONFIGURAÇÃO DE BEASNS
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@ActiveProfiles("test-integration")
+@ActiveProfiles("test-e2e")
 @SpringBootTest(classes = WebServerConfig.class)
 @ExtendWith(MySQLCleanUpExtension.class)
-public @interface IntegrationTest {
-
+@AutoConfigureMockMvc
+//PRECISA DESSE AUTO CONFIGURE MOCK MVC
+public @interface E2ETest {
 }

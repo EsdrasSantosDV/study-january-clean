@@ -66,6 +66,11 @@ dependencies {
     implementation('com.fasterxml.jackson.module:jackson-module-afterburner')
 
 
+    testImplementation('org.testcontainers:testcontainers:1.17.2')
+    testImplementation('org.testcontainers:mysql:1.17.2')
+    testImplementation('org.testcontainers:junit-jupiter:1.17.2')
+
+
     testImplementation('org.flywaydb:flyway-core')
     testRuntimeOnly('com.h2database:h2')
 
@@ -79,6 +84,16 @@ dependencies {
 
 //PRECISAMOS COLOCAR O CONECTOR PRA CONECTAR COM O MYSQL
 // PRA RUNTIME DO H2
+
+
+/*
+
+    testImplementation('org.testcontainers:testcontainers:1.17.2')
+    testImplementation('org.testcontainers:mysql:1.17.2')
+    testImplementation('org.testcontainers:junit-jupiter:1.17.2')
+isso pros test container
+
+ */
 
 /*
 PRECISAMOS COLOCAR O CONECTOR PRA CONECTAR COM O MYSQL

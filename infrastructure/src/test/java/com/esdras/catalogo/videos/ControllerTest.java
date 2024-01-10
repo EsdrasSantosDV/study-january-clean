@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@ActiveProfiles("test")
+@ActiveProfiles("test-integration")
 //ESSES SÃO PADROES OS DE CIMA
 @WebMvcTest
 //PRA CONFIGURAR O QUE VAI SER TESTADO EM RELAÇÃO A DESSERIZAÇÃO E SERIALIZAÇÃO

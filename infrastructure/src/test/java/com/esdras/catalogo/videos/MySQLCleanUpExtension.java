@@ -9,7 +9,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Collection;
 
 //ABSTRAIR O QUE LIMPA O BANCO DE DADOS H2 A CADA TESTE
-public class CleanUpExtension implements BeforeEachCallback {
+public class MySQLCleanUpExtension implements BeforeEachCallback {
 
     //ISSO PRA LIMPAR O BANCO DE DADOS ANTES DE CADA TESTE
     @Override

@@ -1,0 +1,12 @@
+mysql:
+  username: root
+  password: 123456
+  schema: adm_videos
+  url: localhost:${mysql.port}
+    #vai pegar a porta no test container
+    # Define as configurações de conexão com o banco de dados MySQL.
+    # Essas configurações são usadas pelo Spring Boot para se conectar ao banco de dados.
+  # O Spring Boot usa o driver JDBC do MySQL para se conectar ao banco de dados.
+  # O Spring Boot configura automaticamente o driver JDBC do MySQL quando ele detecta que o driver está no classpath.
+  # O Spring Boot também configura automaticamente o pool de conexões Hikari quando detecta que o pool de conexões está no classpath.
+

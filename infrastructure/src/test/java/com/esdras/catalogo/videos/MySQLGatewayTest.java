@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
-@ActiveProfiles("test")
+@ActiveProfiles("test-integration")
 // ISSO PRA CONFIGURAR OS BEANS POR PADRÃO
 //QUE TEM ESSE MYSQL Gateway
 @ComponentScan(includeFilters = {
@@ -23,7 +23,7 @@ import java.lang.annotation.*;
 })
 @DataJpaTest
 //O DATA JPA TEST TA PRA CONFIG DE PERSISTNECIA PRA DEIXAR MAIS RAPIDO OS TESTES
-@ExtendWith(CleanUpExtension.class)
+@ExtendWith(MySQLCleanUpExtension.class)
 public @interface MySQLGatewayTest {
 
 }
